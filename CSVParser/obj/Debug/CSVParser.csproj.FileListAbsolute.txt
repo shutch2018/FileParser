@@ -15,3 +15,4 @@ C:\Users\sethh\source\repos\CSVParser\CSVParser\bin\Debug\Newtonsoft.Json.xml
 C:\Users\sethh\source\repos\CSVParser\CSVParser\obj\Debug\CSVParser.csproj.CoreCompileInputs.cache
 C:\Users\sethh\source\repos\CSVParser\CSVParser\obj\Debug\CSVParser.exe
 C:\Users\sethh\source\repos\CSVParser\CSVParser\obj\Debug\CSVParser.pdb
+C:\Users\sethh\source\repos\CSVParser\CSVParser\obj\Debug\CSVParser.csprojResolveAssemblyReference.cache

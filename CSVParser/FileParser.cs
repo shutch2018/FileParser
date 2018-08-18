@@ -17,6 +17,8 @@ namespace CSVParser
 
         public List<string[]> rowContents { get; set; }
 
+        public FileParser() { }
+
         public FileParser(string filePath)
         {
             try
