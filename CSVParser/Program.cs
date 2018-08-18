@@ -12,7 +12,7 @@ namespace CSVParser
         static void Main(string[] args)
         {
             string input = "";
-            string outputFileName = "";
+            int delimeterType = 0;
             bool fileLoop = true;
             bool parseLoop = true;
             FileParser parser = new FileParser();
@@ -41,9 +41,12 @@ namespace CSVParser
                 Console.WriteLine("Loading your file. Please wait...");
                 parser = new FileParser(input);
 
+                Console.WriteLine("Please specify your delimeter by number: [0] = Comma  [1] = Pipe");
+                delimeterType = Int32.Parse(Console.ReadLine());
+
                 Console.WriteLine("Parsing file. Please wait...");
                 parser.LoadFileText();
-                parser.ParseRowData();
+                parser.ParseRowData(delimeterType);
                 parser.BuildJSON();
 
                 Console.WriteLine("Writing output file. Please wait...");

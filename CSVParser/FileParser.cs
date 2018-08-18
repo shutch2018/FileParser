@@ -56,15 +56,24 @@ namespace CSVParser
 
         //!- Adjust for error handling
         //!- Adjust for cells that have double quotes in them
-        public int ParseRowData()
+        public int ParseRowData(int delimeterType)
         {
-
+            Regex delimeterString = new Regex("");
             List<string[]> parsedRow = new List<string[]>();
-            Regex delimterString = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+
+            if (delimeterType == 0)
+            {
+                delimeterString = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+            }
+            else if (delimeterType == 1)
+            {
+                delimeterString = new Regex("[|](?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+
+            }
 
             foreach ( var row in fileContents)
             {
-                string[] rowContent = delimterString.Split(row);
+                string[] rowContent = delimeterString.Split(row);
                 string[] sanitizedContent = rowContent;
 
                 for(int i =0; i < rowContent.Count(); i++)
