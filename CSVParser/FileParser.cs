@@ -12,9 +12,11 @@ namespace CSVParser
         public string output { get; set; }
 
         public string FilePath { get; set; }
-        public List<KeyValuePair<int, string>> fileContent { get; set; }
-        public List<KeyValuePair<int, string[]>> rowContent { get; set; }
-        
+
+        public List<string> fileContents { get; set; }
+
+        public List<string[]> rowContents { get; set; }
+
         public FileParser(string filePath)
         {
             try
@@ -38,13 +40,12 @@ namespace CSVParser
 
             //Regex for newline parsing?: Regex r = new Regex(@"(?m)^[^""\r\n]*(?:(?:""[^""]*"")+[^""\r\n]*)*");
             StreamReader reader = File.OpenText(FilePath);
-            int rowNumber = -1;
-            fileContent = new List<KeyValuePair<int, string>>();
+            fileContents = new List<string>();
 
             while ((line = reader.ReadLine()) != null)
             {
-                KeyValuePair<int, string> rowContent = new KeyValuePair<int, string>(++rowNumber, line);
-                fileContent.Add(rowContent);
+                string lineContent = line;
+                fileContents.Add(lineContent);
             }
 
             return 1;
@@ -56,30 +57,29 @@ namespace CSVParser
         public int ParseRowData()
         {
 
-            List<KeyValuePair<int, string[]>> parsedRow = new List<KeyValuePair<int, string[]>>();
+            List<string[]> parsedRow = new List<string[]>();
             Regex delimterString = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
-            foreach( var row in fileContent)
+            foreach( var row in fileContents)
             {
-                string[] rowContent = delimterString.Split(row.Value);
-                KeyValuePair<int, string[]> temp = new KeyValuePair<int, string[]>(row.Key, rowContent);
-                parsedRow.Add(temp); 
+                string[] rowContent = delimterString.Split(row);
+                parsedRow.Add(rowContent); 
             }
 
-            rowContent = parsedRow;
+            rowContents = parsedRow;
             return 1;
         }
 
         //Maybe put each json object as a value in an array?
         public int BuildJSON()
         {
-            string[] headerRow = rowContent[0].Value;
+            string[] headerRow = rowContents[0];
             string rowValue = @"{ ""Result"" : [";
 
-            foreach (var row in rowContent)
+            foreach (var row in rowContents)
             {
-                if (row.Key != 0)
+                if (rowContents.IndexOf(row) != 0)
                 {
-                    if(row.Key == 1)
+                    if(rowContents.IndexOf(row) == 1)
                     {
                         rowValue += "{";
                     }
@@ -91,12 +91,12 @@ namespace CSVParser
                     {
                         if( i != headerRow.Count()-1)
                         {
-                            string temp = string.Format(@" ""{0}"" : ""{1}"", ", headerRow[i], row.Value[i]);
+                            string temp = string.Format(@" ""{0}"" : ""{1}"", ", headerRow[i], row[i]);
                             rowValue += temp;
                         }
                         else
                         {
-                            string temp = string.Format(@" ""{0}"" : ""{1}"" ", headerRow[i], row.Value[i]);
+                            string temp = string.Format(@" ""{0}"" : ""{1}"" ", headerRow[i], row[i]);
                             rowValue += temp;
                         }
                     }
@@ -111,7 +111,7 @@ namespace CSVParser
 
         public void OutputFile()
         {
-            System.IO.File.WriteAllText(@"C: \Users\sethh\source\repos\ConsoleApp1\ConsoleApp1\Lib\mockedData.json", output);
+            System.IO.File.WriteAllText(@".\mockedData.json", output);
         }
 
     }
