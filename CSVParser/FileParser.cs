@@ -8,17 +8,29 @@ namespace CSVParser
 {
     class FileParser
     {
+        //String used to temporarily store each line that is read in from the source file
         public string line { get; set; }
+        
+        //String used to store the entire JSON output
         public string output { get; set; }
 
+        //String used to manage the path of the CSV file being parsed
         public string FilePath { get; set; }
 
+        //List that contains all of the CSV contents separated by line
         public List<string> fileContents { get; set; }
 
+        //List that contains all of the CSV contents separated by line, where each array element is a unique value in the line
         public List<string[]> rowContents { get; set; }
 
+        /***
+         * Default FileParser constructor
+         ***/
         public FileParser() { }
 
+        /***
+         * FileParser constructor that determines if a file exists and then sets it as the FilePath value
+         ***/
         public FileParser(string filePath)
         {
             try
@@ -35,27 +47,33 @@ namespace CSVParser
 
         }
 
-        //!- Adjust for error handling
-        //!- Adjust for rows that may have a newline in them
+        /***
+         * LoadFileText takes the file referenced by FilePath and reads in the content line by line, adding it to fileContents
+         ***/
         public int LoadFileText()
         {
-
-            //Regex for newline parsing?: Regex r = new Regex(@"(?m)^[^""\r\n]*(?:(?:""[^""]*"")+[^""\r\n]*)*");
-            StreamReader reader = File.OpenText(FilePath);
-            fileContents = new List<string>();
-
-            while ((line = reader.ReadLine()) != null)
+            try
             {
-                string lineContent = line;
-                fileContents.Add(lineContent);
+                StreamReader reader = File.OpenText(FilePath);
+                fileContents = new List<string>();
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string lineContent = line;
+                    fileContents.Add(lineContent);
+                }
+                return 1;
             }
-
-            return 1;
-
+            catch(Exception e)
+            {
+                Console.WriteLine("An error occurred while reading the file contents. Prcoess Failes: {0}", e.ToString());
+                return 0;
+            }
         }
 
-        //!- Adjust for error handling
-        //!- Adjust for cells that have double quotes in them
+        /***
+         * ParseRowData loops through fileContents and breaks each line into an array, adding it into rowContents
+         ***/
         public int ParseRowData(int delimeterType)
         {
             Regex delimeterString = new Regex("");
@@ -73,74 +91,103 @@ namespace CSVParser
 
             foreach ( var row in fileContents)
             {
-                string[] rowContent = delimeterString.Split(row);
-                string[] sanitizedContent = rowContent;
-
-                for(int i =0; i < rowContent.Count(); i++)
+                try
                 {
-                    if (rowContent[i].Contains("\"\"\""))
-                    {
-                        sanitizedContent[i] = rowContent[i].Replace("\"\"\"", @"\""");
+                    string[] rowContent = delimeterString.Split(row);
+                    string[] sanitizedContent = rowContent;
 
-                    }
-                    else if (rowContent[i].Contains("\""))
+                    for (int i = 0; i < rowContent.Count(); i++)
                     {
-                        sanitizedContent[i] = rowContent[i].Replace("\"", "");
+                        if (rowContent[i].Contains("\"\"\""))
+                        {
+                            sanitizedContent[i] = rowContent[i].Replace("\"\"\"", @"\""");
 
+                        }
+                        else if (rowContent[i].Contains("\""))
+                        {
+                            sanitizedContent[i] = rowContent[i].Replace("\"", "");
+
+                        }
                     }
+                    parsedRow.Add(sanitizedContent);
+                    rowContents = parsedRow;
                 }
-
-
-                parsedRow.Add(sanitizedContent); 
+                catch (Exception e)
+                {
+                    Console.WriteLine("An error occurred while separating row content. Process Failed: {0}", e.ToString());
+                    return 0;
+                }
             }
 
-            rowContents = parsedRow;
             return 1;
         }
 
-        //Maybe put each json object as a value in an array?
+        /***
+         * BuildJSON loops through rowContents and builds each JSON element, 
+         ***/
         public int BuildJSON()
         {
             string[] headerRow = rowContents[0];
             string rowValue = @"{ ""Result"" : [";
 
-            foreach (var row in rowContents)
+            try
             {
-                if (rowContents.IndexOf(row) != 0)
+                foreach (var row in rowContents)
                 {
-                    if(rowContents.IndexOf(row) == 1)
+                    if (rowContents.IndexOf(row) != 0)
                     {
-                        rowValue += "{";
-                    }
-                    else
-                    {
-                        rowValue += ",{";
-                    }
-                    for (var i = 0; i < headerRow.Count(); i++)
-                    {
-                        if( i != headerRow.Count()-1)
+                        if (rowContents.IndexOf(row) == 1)
                         {
-                            string temp = string.Format(@" ""{0}"" : ""{1}"", ", headerRow[i], row[i]);
-                            rowValue += temp;
+                            rowValue += "{";
                         }
                         else
                         {
-                            string temp = string.Format(@" ""{0}"" : ""{1}"" ", headerRow[i], row[i]);
-                            rowValue += temp;
+                            rowValue += ",{";
                         }
+                        for (var i = 0; i < headerRow.Count(); i++)
+                        {
+                            if (i != headerRow.Count() - 1)
+                            {
+                                string temp = string.Format(@" ""{0}"" : ""{1}"", ", headerRow[i], row[i]);
+                                rowValue += temp;
+                            }
+                            else
+                            {
+                                string temp = string.Format(@" ""{0}"" : ""{1}"" ", headerRow[i], row[i]);
+                                rowValue += temp;
+                            }
+                        }
+                        rowValue += "}";
                     }
-                    rowValue += "}";
                 }
             }
+            catch(Exception e)
+            {
+                Console.WriteLine("An error occurred when building the JSON data. Process Failed: {0}", e.ToString());
+                return 0;
+            }
+            
             rowValue += " ]}";
             output = rowValue;
 
             return 1;
         }
 
-        public void OutputFile()
+        /***
+         * OutputFile takes the JSON output and pushes it into a file named 'mockedData.json' in the same directory as the console application
+         ***/
+        public int OutputFile()
         {
-            System.IO.File.WriteAllText(@".\mockedData.json", output);
+            try
+            {
+                System.IO.File.WriteAllText(@".\mockedData.json", output);
+                return 1;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("An error occurred while writing the output file. Process Failed: {0}", e.ToString());
+                return 0;
+            }
         }
 
     }
