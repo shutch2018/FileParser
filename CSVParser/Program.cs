@@ -10,7 +10,7 @@ namespace CSVParser
     {
         static void Main(string[] args)
         {
-            string filePath = @"C: \Users\sethh\source\repos\CSVParser\CSVParser\Lib\MOCK_DATA.csv";
+            string filePath = @"C: \Users\sethh\source\repos\CSVParser\CSVParser\Lib\MOCK_DATA_QuoteTest.csv";
             FileParser temp = new FileParser(filePath);
             temp.LoadFileText();
             temp.ParseRowData();

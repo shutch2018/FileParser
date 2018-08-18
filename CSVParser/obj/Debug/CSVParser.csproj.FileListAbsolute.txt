@@ -7,12 +7,11 @@ C:\Users\sethh\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\CSVParser.csprojRe
 C:\Users\sethh\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\CSVParser.csproj.CoreCompileInputs.cache
 C:\Users\sethh\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.exe
 C:\Users\sethh\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
-C:\Users\sethh\source\repos\CSVParser\CSVParser\bin\Debug\Newtonsoft.Json.dll
-C:\Users\sethh\source\repos\CSVParser\CSVParser\bin\Debug\Newtonsoft.Json.xml
-C:\Users\sethh\source\repos\CSVParser\CSVParser\obj\Debug\CSVParser.csprojResolveAssemblyReference.cache
-C:\Users\sethh\source\repos\CSVParser\CSVParser\obj\Debug\CSVParser.csproj.CoreCompileInputs.cache
 C:\Users\sethh\source\repos\CSVParser\CSVParser\bin\Debug\CSVParser.exe.config
 C:\Users\sethh\source\repos\CSVParser\CSVParser\bin\Debug\CSVParser.exe
 C:\Users\sethh\source\repos\CSVParser\CSVParser\bin\Debug\CSVParser.pdb
+C:\Users\sethh\source\repos\CSVParser\CSVParser\bin\Debug\Newtonsoft.Json.dll
+C:\Users\sethh\source\repos\CSVParser\CSVParser\bin\Debug\Newtonsoft.Json.xml
+C:\Users\sethh\source\repos\CSVParser\CSVParser\obj\Debug\CSVParser.csproj.CoreCompileInputs.cache
 C:\Users\sethh\source\repos\CSVParser\CSVParser\obj\Debug\CSVParser.exe
 C:\Users\sethh\source\repos\CSVParser\CSVParser\obj\Debug\CSVParser.pdb

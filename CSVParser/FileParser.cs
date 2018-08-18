@@ -59,10 +59,28 @@ namespace CSVParser
 
             List<string[]> parsedRow = new List<string[]>();
             Regex delimterString = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
-            foreach( var row in fileContents)
+
+            foreach ( var row in fileContents)
             {
                 string[] rowContent = delimterString.Split(row);
-                parsedRow.Add(rowContent); 
+                string[] sanitizedContent = rowContent;
+
+                for(int i =0; i < rowContent.Count(); i++)
+                {
+                    if (rowContent[i].Contains("\"\"\""))
+                    {
+                        sanitizedContent[i] = rowContent[i].Replace("\"\"\"", @"\""");
+
+                    }
+                    else if (rowContent[i].Contains("\""))
+                    {
+                        sanitizedContent[i] = rowContent[i].Replace("\"", "");
+
+                    }
+                }
+
+
+                parsedRow.Add(sanitizedContent); 
             }
 
             rowContents = parsedRow;
