@@ -55,7 +55,7 @@ namespace CSVParser
             try
             {
                 string ext = Path.GetExtension(FilePath);
-                if(ext.ToLower() != "csv")
+                if(ext.ToLower() != ".csv")
                 {
                     Console.WriteLine("Incorrect file type specified. Please provide a .csv file");
                     return 0;
