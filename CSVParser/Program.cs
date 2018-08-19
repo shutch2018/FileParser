@@ -97,6 +97,10 @@ namespace CSVParser
                 {
                     parseLoop = false;
                 }
+                else
+                {
+                    Console.WriteLine("Congratulations! Your file was converted successfully!");
+                }
 
                 /***
                  * Loop to allow a user to specify if there are other files to parse or if they are done with the application

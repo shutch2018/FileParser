@@ -174,13 +174,13 @@ namespace CSVParser
         }
 
         /***
-         * OutputFile takes the JSON output and pushes it into a file named 'mockedData.json' in the same directory as the console application
+         * OutputFile takes the JSON output and pushes it into a file named 'parsedData.json' in the same directory as the console application
          ***/
         public int OutputFile()
         {
             try
             {
-                System.IO.File.WriteAllText(@".\mockedData.json", output);
+                System.IO.File.WriteAllText(@".\parsedData.json", output);
                 return 1;
             }
             catch(Exception e)
