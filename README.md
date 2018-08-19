@@ -3,7 +3,7 @@
 ## From the Executable:
 If you have the CSVParser.exe, run the executable. 
 
-Following the in-console prompts, you will have to specify a CSV file for the application to read, parse, and convert into a json file.
+Following the in-console prompts, you will have to specify a CSV file for the application to read, parse, and convert into a json file. When specifying the path to your CSV, do not include quotes around the file name. 
 	
  :warning: **Please note that depending on the security on your machine, you may need to run the executable as an administrator to read in your CSV file**
  - Your CSV file can only use one type of delimeter, a comma (,) or a pipe (|) and cannot use a combination of the two.
@@ -15,7 +15,7 @@ Your output json file will be written in the same directory as the executable un
 ## From the Solution:
 If you are editing or reviewing the CSVParser solution, please clean and then build the solution in Visual Studio. Once built, you will find the CSVParser.exe under the bin\Debug directory.
 
-Following the in-console prompts, you will have to specify a CSV file for the application to read, parse, and convert into a json file.
+Following the in-console prompts, you will have to specify a CSV file for the application to read, parse, and convert into a json file. When specifying the path to your CSV, do not include quotes around the file name. 
  
  :warning: Please note that depending on the security on your machine, you may need to run the executable as an administrator to read in your CSV file
  - Your CSV file can only use one type of delimeter, a comma (,) or a pipe (|) and cannot use a combination of the two.
